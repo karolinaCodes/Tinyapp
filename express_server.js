@@ -13,6 +13,8 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com",
 };
 
+// GET REQUESTS//
+
 // app.get("/", (req, res) => {
 //   res.send("Hello!");
 // });
@@ -40,6 +42,13 @@ app.get("/urls/:shortURL", (req, res) => {
     longURL: urlDatabase[req.params.shortURL],
   };
   res.render("urls_show", templateVars);
+});
+
+// POST REQUESTS
+
+app.post("/urls", (req, res) => {
+  console.log(req.body);
+  res.send("Ok");
 });
 
 app.listen(PORT, () => {
