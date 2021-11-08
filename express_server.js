@@ -13,6 +13,11 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com",
 };
 
+// generate a random 6 character alphanumeric string which will become the "unique" shortURL
+const generateRandomString = () => {
+  return Math.random().toString(36).substr(2, 6);
+};
+
 // GET REQUESTS//
 
 // app.get("/", (req, res) => {
