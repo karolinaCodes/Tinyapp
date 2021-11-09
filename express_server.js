@@ -67,6 +67,16 @@ app.post("/urls", (req, res) => {
   res.redirect(`/urls/${shortURL}`);
 });
 
+// delete the URL resource
+app.post("/urls/:shortURL/delete", (req, res) => {
+  const shortURL = req.params.shortURL;
+  delete urlDatabase[shortURL];
+  //after it deletes the url, it redirects to the current page- the index page so you can see the new state of the page
+  res.redirect("/urls");
+});
+
+// LISTENER
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
