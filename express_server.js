@@ -37,7 +37,7 @@ const generateRandomString = () => {
 // });
 
 app.get("/urls", (req, res) => {
-  const templateVars = {urls: urlDatabase};
+  const templateVars = {username: req.cookies["username"], urls: urlDatabase};
   res.render("urls_index", templateVars);
 });
 
@@ -78,6 +78,12 @@ app.post("/login", (req, res) => {
 
   const user = emailLookup(submittedEmail);
   res.cookie("user_id", user["id"]);
+  res.redirect("/urls");
+});
+
+// "logs the user out"/ deletes the user id data in cookie
+app.post("/logout", (req, res) => {
+  res.clearCookie("user_id");
   res.redirect("/urls");
 });
 
