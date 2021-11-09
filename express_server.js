@@ -71,6 +71,16 @@ app.post("/urls", (req, res) => {
   res.redirect(`/urls/${shortURL}`);
 });
 
+//log in user if already has an account
+app.post("/login", (req, res) => {
+  const submittedEmail = req.body.email;
+  const submittedPassword = req.body.password;
+
+  const user = emailLookup(submittedEmail);
+  res.cookie("user_id", user["id"]);
+  res.redirect("/urls");
+});
+
 // delete the URL resource
 app.post("/urls/:shortURL/delete", (req, res) => {
   const shortURL = req.params.shortURL;
