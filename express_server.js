@@ -2,10 +2,14 @@ const express = require("express");
 const app = express();
 const PORT = 8080;
 
-// MIDDLEWARE//
+// MIDDLEWARE //
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
 
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
+// VIEW ENGINE //
 app.set("view engine", "ejs");
 
 const urlDatabase = {
@@ -18,7 +22,7 @@ const generateRandomString = () => {
   return Math.random().toString(36).substr(2, 6);
 };
 
-// GET REQUESTS//
+// GET REQUESTS //
 
 // app.get("/", (req, res) => {
 //   res.send("Hello!");
@@ -55,7 +59,7 @@ app.get("/u/:shortURL", (req, res) => {
   res.redirect(longURL);
 });
 
-// POST REQUESTS
+// POST REQUESTS //
 
 app.post("/urls", (req, res) => {
   const shortURL = generateRandomString();
@@ -83,7 +87,7 @@ app.post("/urls/:id", (req, res) => {
   res.redirect(`/urls/${shortURL}`);
 });
 
-// LISTENER
+// LISTENER //
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
