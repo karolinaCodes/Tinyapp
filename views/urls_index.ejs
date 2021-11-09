@@ -1,3 +1,5 @@
+<!-- OOO -->
+<!-- table of my urls -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -20,12 +22,12 @@
     <%- include ('partials/_header.ejs'); %>
     <main style="margin: 1em">
       <h3>My URLs</h3>
-      <a href="#">Create New URL</a>
       <table class="table">
         <thead>
           <tr>
             <th scope="col">Short URL</th>
             <th scope="col">Long URL</th>
+            <th scope="col">Edit</th>
             <th scope="col">Delete</th>
           </tr>
         </thead>
@@ -33,7 +35,7 @@
           <% for(let url in urls) { %>
           <tr>
             <td><%= url %></td>
-            <td><%= urls[url] %></td>
+            <td><%= urls[url]["longURL"] %></td>
 
             <!-- edit url -->
             <td>

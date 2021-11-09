@@ -75,6 +75,14 @@ app.post("/urls/:shortURL/delete", (req, res) => {
   res.redirect("/urls");
 });
 
+//update a resource
+app.post("/urls/:id", (req, res) => {
+  const shortURL = req.params.id;
+  const longURL = req.body.longURL;
+  urlDatabase[shortURL]["longURL"] = longURL;
+  res.redirect(`/urls/${shortURL}`);
+});
+
 // LISTENER
 
 app.listen(PORT, () => {
