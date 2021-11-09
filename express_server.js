@@ -28,9 +28,9 @@ const generateRandomString = () => {
 //   res.send("<html><body>Hello <b>World</b></body></html>\n");
 // });
 
-app.get("/urls.json", (req, res) => {
-  res.json(urlDatabase);
-});
+// app.get("/urls.json", (req, res) => {
+//   res.json(urlDatabase);
+// });
 
 app.get("/urls", (req, res) => {
   const templateVars = {urls: urlDatabase};
@@ -47,6 +47,12 @@ app.get("/urls/:shortURL", (req, res) => {
     longURL: urlDatabase[req.params.shortURL],
   };
   res.render("urls_show", templateVars);
+});
+
+app.get("/u/:shortURL", (req, res) => {
+  const shortURL = req.params.shortURL;
+  const longURL = urlDatabase[shortURL];
+  res.redirect(longURL);
 });
 
 // POST REQUESTS
