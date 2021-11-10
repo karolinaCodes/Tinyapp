@@ -123,6 +123,28 @@ app.post("/register", (req, res) => {
     password: req.body.password,
   };
 
+  //display error message if user did not input an email and/or password
+  if (!user["email"] || !user["password"]) {
+    let errorMsg = "";
+    if (!user["email"]) {
+      errorMsg += "You did not enter your email address. ";
+    }
+
+    if (!user["password"]) {
+      errorMsg += "You did not enter a password.";
+    }
+    return res.status(404).render("urls_error", {user, errorMsg});
+  }
+
+  //display error message if the user already registered with their email
+  if (emailLookup(user["email"])) {
+    return res.status(404).render("urls_error", {
+      user: undefined,
+      errorMsg:
+        "An account has already been created with this email. Please log in.",
+    });
+  }
+
   //add the new user to our users database
   users[user.id] = user;
 
