@@ -33,6 +33,19 @@ app.get("/urls/new", (req, res) => {
   res.render("urls_new");
 });
 
+// account registration
+app.get("/register", (req, res) => {
+  const user = users[req.cookies["user_id"]];
+
+  //if user is already logged in redirect to /urls (don't need access to registration form)
+  if (user) {
+    return res.redirect("/urls");
+  }
+
+  const templateVars = {user};
+  res.render("urls_register", templateVars);
+});
+
 app.get("/urls/:shortURL", (req, res) => {
   const templateVars = {
     shortURL: req.params.shortURL,
