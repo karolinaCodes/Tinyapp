@@ -284,16 +284,42 @@ app.post("/register", (req, res) => {
 
 // delete the URL resource
 app.post("/urls/:shortURL/delete", (req, res) => {
+  // retrieve the user id in cookies to confirm whether the user owns the URL resource
+  const userID = req.cookies["user_id"];
   const shortURL = req.params.shortURL;
+  const longURL = urlDatabase[shortURL]["longURL"];
+
+  // if the url does not belong to the user, display error message
+  const urlsForUserArray = urlsForUser(userID);
+  if (!urlsForUserArray.includes(longURL)) {
+    return res.status(403).render("urls_error", {
+      user: undefined,
+      errorMsg:
+        "Forbidden- You do not have authorization to perform such actions.",
+    });
+  }
+
   delete urlDatabase[shortURL];
-  //after it deletes the url, it redirects to the current page- the index page so you can see the new state of the page
+
   res.redirect("/urls");
 });
 
 //update a resource
 app.post("/urls/:id", (req, res) => {
+  const userID = req.cookies["user_id"];
   const shortURL = req.params.id;
   const longURL = req.body.longURL;
+
+  // if the url does not belong to the user, display error message
+  const urlsForUserArray = urlsForUser(userID);
+  if (!urlsForUserArray.includes(longURL)) {
+    return res.status(403).render("urls_error", {
+      user: undefined,
+      errorMsg:
+        "Forbidden- You do not have authorization to perform such actions.",
+    });
+  }
+
   urlDatabase[shortURL]["longURL"] = longURL;
   res.redirect(`/urls/${shortURL}`);
 });
