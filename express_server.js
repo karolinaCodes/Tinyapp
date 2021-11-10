@@ -73,6 +73,11 @@ app.get("/urls/new", (req, res) => {
 app.get("/register", (req, res) => {
   const user = users[req.cookies["user_id"]];
 
+  //if user is already logged in redirect to /urls (don't need access to registration form)
+  if (user) {
+    return res.redirect("/urls");
+  }
+
   const templateVars = {user};
   res.render("urls_register", templateVars);
 });
@@ -80,6 +85,11 @@ app.get("/register", (req, res) => {
 // account login
 app.get("/login", (req, res) => {
   const user = users[req.cookies["user_id"]];
+
+  //if user is already logged in redirect to /urls (don't need access to login form)
+  if (user) {
+    return res.redirect("/urls");
+  }
 
   const templateVars = {user};
   res.render("urls_login", templateVars);
