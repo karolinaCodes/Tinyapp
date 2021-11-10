@@ -111,6 +111,31 @@ app.post("/login", (req, res) => {
   const submittedEmail = req.body.email;
   const submittedPassword = req.body.password;
 
+  // display error message if user did not input an email and/or password
+  if (!submittedEmail || !submittedPassword) {
+    let errorMsg = "";
+    if (!submittedEmail) {
+      errorMsg += "You did not enter your email address. ";
+    }
+
+    if (!submittedPassword) {
+      errorMsg += "You did not enter a password.";
+    }
+    return res.status(404).render("urls_error", {user: undefined, errorMsg});
+  }
+
+  // if user email not in database return error message
+  if (!emailLookup(submittedEmail)) {
+    const errorMsg = "We cannot find your email in our system.";
+    return res.status(403).render("urls_error", {user: undefined, errorMsg});
+  }
+
+  //if submitted email matches but the submitted password does not, return an error message
+  if (emailLookup(submittedEmail)["password"] !== submittedPassword) {
+    const errorMsg = "Incorrect Password.";
+    return res.status(403).render("urls_error", {user: undefined, errorMsg});
+  }
+
   const user = emailLookup(submittedEmail);
   res.cookie("user_id", user["id"]);
   res.redirect("/urls");
