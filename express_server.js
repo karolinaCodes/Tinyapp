@@ -66,7 +66,6 @@ app.get("/register", (req, res) => {
     return res.redirect("/urls");
   }
 
-  const templateVars = {user};
   res.render("urls_register", templateVars);
 });
 
@@ -79,7 +78,6 @@ app.get("/urls/:shortURL", (req, res) => {
   const templateVars = {
     shortURL,
     longURL,
-    user,
   };
 
   res.render("urls_show", templateVars);
@@ -119,22 +117,6 @@ app.post("/logout", (req, res) => {
   res.redirect("/urls");
 });
 
-// delete the URL resource
-app.post("/urls/:shortURL/delete", (req, res) => {
-  const shortURL = req.params.shortURL;
-  delete urlDatabase[shortURL];
-  //after it deletes the url, it redirects to the current page- the index page so you can see the new state of the page
-  res.redirect("/urls");
-});
-
-//update a resource
-app.post("/urls/:id", (req, res) => {
-  const shortURL = req.params.id;
-  const longURL = req.body.longURL;
-  urlDatabase[shortURL]["longURL"] = longURL;
-  res.redirect(`/urls/${shortURL}`);
-});
-
 // add the user info to our users database
 app.post("/register", (req, res) => {
   //create a user object
@@ -149,6 +131,22 @@ app.post("/register", (req, res) => {
 
   res.cookie("user_id", user.id);
   res.redirect("/urls");
+});
+
+// delete the URL resource
+app.post("/urls/:shortURL/delete", (req, res) => {
+  const shortURL = req.params.shortURL;
+  delete urlDatabase[shortURL];
+  //after it deletes the url, it redirects to the current page- the index page so you can see the new state of the page
+  res.redirect("/urls");
+});
+
+//update a resource
+app.post("/urls/:id", (req, res) => {
+  const shortURL = req.params.id;
+  const longURL = req.body.longURL;
+  urlDatabase[shortURL]["longURL"] = longURL;
+  res.redirect(`/urls/${shortURL}`);
 });
 
 // LISTENER //
