@@ -58,12 +58,31 @@ const emailLookup = email => {
   return;
 };
 
+// returns the urls that belong to the specified user (id)
+const urlsForUser = id => {
+  const results = [];
+  for (let url of Object.keys(urlDatabase)) {
+    if (urlDatabase[url]["userID"] === id) {
+      results.push(urlDatabase[url]["longURL"]);
+    }
+  }
+  return results;
+};
+
 // GET REQUESTS //
 
 // table of urls
 app.get("/urls", (req, res) => {
   //user is an obj
   const user = users[req.cookies["user_id"]];
+
+  // user is not logged in, display error mesage
+  if (!user) {
+    return res.status(401).render("urls_error", {
+      user: undefined,
+      errorMsg: "Unauthorized- You must register or log in to gain access.",
+    });
+  }
 
   const templateVars = {user, urls: urlDatabase};
   res.render("urls_index", templateVars);
@@ -105,8 +124,37 @@ app.get("/login", (req, res) => {
 //page that show the user the newly created shortURL
 app.get("/urls/:shortURL", (req, res) => {
   const user = users[req.cookies["user_id"]];
+
+  // display error message if user tries to access page and is not logged in
+  if (!user) {
+    return res.status(401).render("urls_error", {
+      user: undefined,
+      errorMsg:
+        "Unauthorized Access- You must register or log in to gain access.",
+    });
+  }
+
+  // if the shortURL does not exist in database, display error message
+  if (!urlDatabase[req.params.shortURL]) {
+    return res.status(404).render("urls_error", {
+      user: undefined,
+      errorMsg: "Error- this page does not exist.",
+    });
+  }
+
   const shortURL = req.params.shortURL;
+  console.log(urlDatabase);
   const longURL = urlDatabase[shortURL]["longURL"];
+
+  // return an array of the url's the user create tinyURLs for
+  const urlsForUserArray = urlsForUser(user["id"]);
+  //if the current user did not create a tinyURL for this url, display error message
+  if (!urlsForUserArray.includes(longURL)) {
+    return res.status(401).render("urls_error", {
+      user: undefined,
+      errorMsg: "Unauthorized Access- You do not have access to this page.",
+    });
+  }
 
   const templateVars = {
     shortURL,
