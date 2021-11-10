@@ -39,6 +39,18 @@ const generateRandomString = () => {
   return Math.random().toString(36).substr(2, 6);
 };
 
+const emailLookup = email => {
+  //loop through users object to see if a user's email already exists in our database
+  // return the user if there a match (truthy), otherwise returns undefined (falsey)
+  for (let user of Object.keys(users)) {
+    if (users[user]["email"] === email) {
+      return users[user];
+    }
+  }
+
+  return;
+};
+
 // GET REQUESTS //
 
 // table of urls
