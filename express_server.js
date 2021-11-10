@@ -118,11 +118,21 @@ app.get("/u/:shortURL", (req, res) => {
 
 // POST REQUESTS //
 
+// creates a new short url and sends the data to the urlDatabase
 app.post("/urls", (req, res) => {
-  const shortURL = generateRandomString();
-  const longURL = req.body.longURL;
+  // retrieves the user obj from users database using the cookie id to confirm that the user is logged in
+  const user = users[req.cookies["user_id"]];
 
-  urlDatabase[shortURL] = longURL;
+  // if user attempts to create a new url without being logged in, display error message
+  if (!user) {
+    const errorMsg = "Forbidden-You must login to perform such actions.";
+    return res.status(403).render("urls_error", {user: undefined, errorMsg});
+  }
+
+  const shortURL = generateRandomString();
+
+  // save the longURL with the user ID who owns it.
+  urlDatabase[shortURL] = {longURL, userID: user["id"]};
 
   //what if user already create a short url for a url?
   res.redirect(`/urls/${shortURL}`);
