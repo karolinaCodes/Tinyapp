@@ -61,11 +61,7 @@ app.get("/urls/new", (req, res) => {
 app.get("/register", (req, res) => {
   const user = users[req.cookies["user_id"]];
 
-  //if user is already logged in redirect to /urls (don't need access to registration form)
-  if (user) {
-    return res.redirect("/urls");
-  }
-
+  const templateVars = {user};
   res.render("urls_register", templateVars);
 });
 
@@ -78,6 +74,7 @@ app.get("/urls/:shortURL", (req, res) => {
   const templateVars = {
     shortURL,
     longURL,
+    user,
   };
 
   res.render("urls_show", templateVars);
