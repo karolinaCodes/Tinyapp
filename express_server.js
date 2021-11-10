@@ -117,8 +117,18 @@ app.get("/urls/:shortURL", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
+// redirect link- redirect request to "/u/:shortURL" to its longURL(ex. http://www.google.com)
 app.get("/u/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
+
+  // if the :shortURL doesn't exist in data base return error message
+  if (!urlDatabase[shortURL]) {
+    return res.status(404).render("urls_error", {
+      user: undefined,
+      errorMsg: "Error- that shortURL has not been created.",
+    });
+  }
+
   const longURL = urlDatabase[shortURL]["longURL"];
   res.redirect(longURL);
 });
