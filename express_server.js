@@ -12,10 +12,27 @@ app.use(cookieParser());
 // VIEW ENGINE //
 app.set("view engine", "ejs");
 
+// DATABASE //
+
 const urlDatabase = {
   b2xVn2: "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com",
 };
+
+const users = {
+  userRandomID: {
+    id: "userRandomID",
+    email: "user@example.com",
+    password: "purple-monkey-dinosaur",
+  },
+  user2RandomID: {
+    id: "user2RandomID",
+    email: "user2@example.com",
+    password: "dishwasher-funk",
+  },
+};
+
+// HELPER FUNCTIONS //
 
 // generate a random 6 character alphanumeric string which will become the "unique" shortURL
 const generateRandomString = () => {
@@ -24,13 +41,20 @@ const generateRandomString = () => {
 
 // GET REQUESTS //
 
+// table of urls
 app.get("/urls", (req, res) => {
-  const templateVars = {username: req.cookies["username"], urls: urlDatabase};
+  //user is an obj
+  const user = users[req.cookies["user_id"]];
+
+  const templateVars = {user, urls: urlDatabase};
   res.render("urls_index", templateVars);
 });
 
+// create a new url
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
+  const user = users[req.cookies["user_id"]];
+  const templateVars = {user};
+  res.render("urls_new", templateVars);
 });
 
 // account registration
@@ -46,11 +70,18 @@ app.get("/register", (req, res) => {
   res.render("urls_register", templateVars);
 });
 
+//page that show the user the newly created shortURL
 app.get("/urls/:shortURL", (req, res) => {
+  const user = users[req.cookies["user_id"]];
+  const shortURL = req.params.shortURL;
+  const longURL = urlDatabase[shortURL]["longURL"];
+
   const templateVars = {
-    shortURL: req.params.shortURL,
-    longURL: urlDatabase[req.params.shortURL],
+    shortURL,
+    longURL,
+    user,
   };
+
   res.render("urls_show", templateVars);
 });
 
@@ -102,6 +133,22 @@ app.post("/urls/:id", (req, res) => {
   const longURL = req.body.longURL;
   urlDatabase[shortURL]["longURL"] = longURL;
   res.redirect(`/urls/${shortURL}`);
+});
+
+// add the user info to our users database
+app.post("/register", (req, res) => {
+  //create a user object
+  const user = {
+    id: generateRandomString(),
+    email: req.body.email,
+    password: req.body.password,
+  };
+
+  //add the new user to our users database
+  users[user.id] = user;
+
+  res.cookie("user_id", user.id);
+  res.redirect("/urls");
 });
 
 // LISTENER //
