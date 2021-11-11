@@ -3,7 +3,7 @@
 
 # TinyApp
 
-TinyApp is a simple URL shortener app that takes a regular URL and transforms it into an encoded version (similar to bit.ly).
+TinyApp is a simple URL shortener app that takes a regular URL and transforms it into an encoded version (similar to [bit.ly](https://bitly.com/)).
 Built with Node and Express for the back end, and EJS and Bootstrap for the front-end.
 
 ## Final Product
