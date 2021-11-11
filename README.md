@@ -12,16 +12,16 @@ Built with Node and Express for the back end, and EJS and Bootstrap for the fron
 Create an account to begin creating tinyURLS! 🍾
 
 !["screenshot of home page"](./docs/urls_index.jpeg)
-Once registered or logged in, you can view your home where all of your tinyURLS will be displayed. Here you also have the option to edit or delete them. ⚙️
+Once registered or logged in, you can view your home page where all of your tinyURLS are displayed. Here, you also have the option to edit or delete them. ⚙️
 
 !["screenshot of create new url page"](./docs/urls_new.jpeg)
 Click "Create New URL" in the nav bar to be directed to the this page where you can create a new tinyURL! ✨
 
 !["screenshot of selected url page"](./docs/urls_show.jpeg)
-You can view the data for a specific tinyURL on this page which will appear after creating as creating a new tinyURL or after clicking "edit" on a URL from the home page. Here you can also visit the webite for which you create the tinyURL URL but clicking the tinyURL link. 🔍
+You can view the data for a specific tinyURL on this page which will appear after creating a new tinyURL or after clicking "edit" on a tinyURL from the home page. Here, you can also visit the webite for which you created the tinyURL URL by clicking the tinyURL link. 🔍
 
 !["screenshot of login page"](./docs/urls_login.jpeg)
-All your URLS are safe and secure in your own account. Our system is ensures to keep your tinyURLS safe from any hackers. When you choose to log out of your account, no one will be able to access your tinyURLs unless you log back in. 🔑
+All your URLS are safe and secure in your own account. Our system ensures to keep your tinyURLS safe from any hackers. When you choose to log out of your account, you will be prompted to log back in. 🔑
 
 ## Dependencies
 
