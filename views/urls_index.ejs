@@ -1,4 +1,3 @@
-<!-- OOO -->
 <!-- table of my urls -->
 <!DOCTYPE html>
 <html lang="en">
@@ -32,14 +31,14 @@
           </tr>
         </thead>
         <tbody>
-          <% for(let url in urls) { %>
+          <% for(let url of urls) { %>
           <tr>
-            <td><%= url %></td>
-            <td><%= urls[url]["longURL"] %></td>
+            <td><%= url["shortURL"] %></td>
+            <td><%= url["longURL"] %></td>
 
             <!-- edit url -->
             <td>
-              <form method="GET" action="/urls/<%= url %>">
+              <form method="GET" action="/urls/<%= url['shortURL'] %>">
                 <button type="submit" class="btn btn-outline-primary">
                   Edit
                 </button>
@@ -47,7 +46,7 @@
             </td>
             <!-- delete url -->
             <td>
-              <form method="POST" action="/urls/<%= url %>/delete">
+              <form method="POST" action="/urls/<%= url['shortURL'] %>/delete">
                 <button type="submit" class="btn btn-outline-danger">
                   Delete
                 </button>
